@@ -11,6 +11,8 @@ Paypal Version : 94
 Added Non-Digital Express Checkout
 Added easier access to payment response
 
+go get github.com/badoet/go-paypal
+
 Quick Start: Setting Up a PayPal Charge (Redirect)
 ---
 
@@ -18,7 +20,7 @@ Quick Start: Setting Up a PayPal Charge (Redirect)
 ```go
 import (
   "fmt"
-  "github.com/crowdmob/paypal"
+  "github.com/badoet/go-paypal"
 )
 
 func paypalExpressCheckoutHandler(w http.ResponseWriter, r *http.Request) {
@@ -58,7 +60,7 @@ func paypalExpressCheckoutHandler(w http.ResponseWriter, r *http.Request) {
 ```go
 import (
 	"fmt"
-	"github.com/crowdmob/paypal"
+	"github.com/badoet/go-paypal"
 	"appengine"
 	"appengine/urlfetch"
 )
