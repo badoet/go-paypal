@@ -7,6 +7,10 @@ Included is a method for using the [Digital Goods for Express Checkout](https://
 
 This fork lets you choose to use [AppEngine's urlfetch package](https://developers.google.com/appengine/docs/go/urlfetch/overview) to create the HTTP Client
 
+Paypal Version : 94
+Added Non-Digital Express Checkout
+Added easier access to payment response
+
 Quick Start: Setting Up a PayPal Charge (Redirect)
 ---
 

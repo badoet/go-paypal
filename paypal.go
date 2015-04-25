@@ -38,7 +38,7 @@ type PayPalOrder struct {
 type PayPalDigitalGood struct {
 	Name     string
 	Amount   float64
-	Quantity int16
+	Quantity int
 }
 
 type PayPalGood struct {
