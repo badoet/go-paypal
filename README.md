@@ -9,7 +9,7 @@ This fork lets you choose to use [AppEngine's urlfetch package](https://develope
 
 Paypal Version : 94
 Added Non-Digital Express Checkout
-Added easier access to payment response
+Added easier access to payment response- PayPalPaymentResponse
 
 go get github.com/badoet/go-paypal
 
