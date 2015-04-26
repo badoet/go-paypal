@@ -42,9 +42,8 @@ type PayPalDigitalGood struct {
 }
 
 type PayPalGood struct {
-	Number   int
+	Id       string
 	Name     string
-	Desc     string
 	Amount   float64
 	Quantity int
 }
@@ -55,6 +54,7 @@ type PayPalResponse struct {
 	Timestamp     string
 	Version       string
 	Build         string
+	Token         string
 	Values        url.Values
 	usedSandbox   bool
 }
@@ -93,7 +93,7 @@ func (e *PayPalError) Error() string {
 func (r *PayPalResponse) CheckoutUrl() string {
 	query := url.Values{}
 	query.Set("cmd", "_express-checkout")
-	query.Add("token", r.Values["TOKEN"][0])
+	query.Add("token", r.Token)
 	checkoutUrl := CHECKOUT_PRODUCTION_URL
 	if r.usedSandbox {
 		checkoutUrl = CHECKOUT_SANDBOX_URL
@@ -146,6 +146,7 @@ func (pClient *PayPalClient) PerformRequest(values url.Values) (*PayPalResponse,
 		response.Timestamp = responseValues.Get("TIMESTAMP")
 		response.Version = responseValues.Get("VERSION")
 		response.Build = responseValues.Get("BUILD")
+		response.Token = responseValues.Get("TOKEN")
 		response.Values = responseValues
 
 		errorCode := responseValues.Get("L_ERRORCODE0")
@@ -217,13 +218,10 @@ func (pClient *PayPalClient) SetExpressCheckout(order PayPalOrder, goods []PayPa
 
 	for i := 0; i < len(goods); i++ {
 		good := goods[i]
-		if good.Number > 0 {
-			values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_NUMBER", i), fmt.Sprintf("%d", good.Number))
+		if good.Id != "" {
+			values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_NUMBER", i), good.Id)
 		}
 		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_NAME", i), good.Name)
-		if good.Desc != "" {
-			values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_DESC", i), good.Desc)
-		}
 		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_AMT", i), fmt.Sprintf("%.2f", good.Amount))
 		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_QTY", i), fmt.Sprintf("%d", good.Quantity))
 	}
