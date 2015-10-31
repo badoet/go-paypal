@@ -1,6 +1,8 @@
 paypal
 ======
 
+![Image](https://circleci.com/gh/badoet/go-paypal/tree/master.png?circle-token=17761c8711ed447342b70f6ecf29602468c55f84)
+
 `paypal` is a Go package that allows you to access PayPal APIs, with optional Google AppEngine support, using the  ["PayPal NVP"](https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_nvp_NVPAPIOverview#id09C2F0G0C7U) format.
 
 Included is a method for using the [Digital Goods for Express Checkout](https://cms.paypal.com/us/cgi-bin/?cmd=_render-content&content_ID=developer/e_howto_api_IntegratingExpressCheckoutDG) payment option.
