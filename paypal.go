@@ -206,7 +206,6 @@ func (pClient *PayPalClient) SetExpressCheckout(order PayPalOrder, goods []PayPa
 	values.Set("METHOD", "SetExpressCheckout")
 	values.Add("PAYMENTREQUEST_0_ITEMAMT", fmt.Sprintf("%.2f", order.SubTotal))
 	values.Add("PAYMENTREQUEST_0_SHIPPINGAMT", fmt.Sprintf("%.2f", order.Shipping))
-	values.Add("PAYMENTREQUEST_0_SHIPDISCAMT", fmt.Sprintf("%.2f", order.Discount))
 	values.Add("PAYMENTREQUEST_0_AMT", fmt.Sprintf("%.2f", order.Total))
 	values.Add("PAYMENTREQUEST_0_PAYMENTACTION", "Sale")
 	values.Add("PAYMENTREQUEST_0_CURRENCYCODE", order.CurrencyCode)
@@ -216,7 +215,9 @@ func (pClient *PayPalClient) SetExpressCheckout(order PayPalOrder, goods []PayPa
 	values.Add("NOSHIPPING", "1")
 	values.Add("SOLUTIONTYPE", "Sole")
 
-	for i := 0; i < len(goods); i++ {
+	goodsCount := len(goods)
+
+	for i := 0; i < goodsCount; i++ {
 		good := goods[i]
 		if good.Id != "" {
 			values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_NUMBER", i), good.Id)
@@ -224,6 +225,12 @@ func (pClient *PayPalClient) SetExpressCheckout(order PayPalOrder, goods []PayPa
 		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_NAME", i), good.Name)
 		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_AMT", i), fmt.Sprintf("%.2f", good.Amount))
 		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_QTY", i), fmt.Sprintf("%d", good.Quantity))
+	}
+
+	if order.Discount > 0 {
+		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_NAME", goodsCount), "DISCOUNT")
+		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_AMT", goodsCount), fmt.Sprintf("%.2f", -order.Discount))
+		values.Add(fmt.Sprintf("%s%d", "L_PAYMENTREQUEST_0_QTY", goodsCount), "1")
 	}
 
 	return pClient.PerformRequest(values)
