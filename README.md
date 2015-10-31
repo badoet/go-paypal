@@ -10,6 +10,7 @@ This fork lets you choose to use [AppEngine's urlfetch package](https://develope
 Paypal Version : 94
 Added Non-Digital Express Checkout
 Added easier access to payment response- PayPalPaymentResponse
+Added support for discount item
 
 go get github.com/badoet/go-paypal
 
@@ -29,25 +30,25 @@ func paypalExpressCheckoutHandler(w http.ResponseWriter, r *http.Request) {
   isSandbox    := true
   returnURL    := "http://example.com/returnURL"
   cancelURL    := "http://example.com/cancelURL"
-  
+
   // Create the paypal Client with default http client
   client := paypal.NewDefaultClient("Your_Username", "Your_Password", "Your_Signature", isSandbox)
-  
+
   // Make a array of your digital-goods
   testGoods := []paypal.PayPalDigitalGood{paypal.PayPalDigitalGood{
-    Name: "Test Good", 
+    Name: "Test Good",
     Amount: 200.000,
     Quantity: 5,
   }}
-  
+
   // Sum amounts and get the token!
-  response, err := client.SetExpressCheckoutDigitalGoods(paypal.SumPayPalDigitalGoodAmounts(&testGoods), 
-    currencyCode, 
-    returnURL, 
-    cancelURL, 
+  response, err := client.SetExpressCheckoutDigitalGoods(paypal.SumPayPalDigitalGoodAmounts(&testGoods),
+    currencyCode,
+    returnURL,
+    cancelURL,
     testGoods,
   )
-  
+
   if err != nil {
     // ... gracefully handle error
   } else { // redirect to paypal
@@ -71,25 +72,25 @@ func paypalExpressCheckoutHandler(w http.ResponseWriter, r *http.Request) {
 	isSandbox    := true
 	returnURL    := "http://example.com/returnURL"
 	cancelURL    := "http://example.com/cancelURL"
-	
+
 	// Create the paypal Client with urlfetch
 	client := paypal.NewClient("Your_Username", "Your_Password", "Your_Signature", urlfetch.Client(appengine.NewContext(r)), isSandbox)
 
   // Make a array of your digital-goods
   testGoods := []paypal.PayPalDigitalGood{paypal.PayPalDigitalGood{
-    Name: "Test Good", 
+    Name: "Test Good",
     Amount: 200.000,
     Quantity: 5,
   }}
-  
+
   // Sum amounts and get the token!
-  response, err := client.SetExpressCheckoutDigitalGoods(paypal.SumPayPalDigitalGoodAmounts(&testGoods), 
-    currencyCode, 
-    returnURL, 
-    cancelURL, 
+  response, err := client.SetExpressCheckoutDigitalGoods(paypal.SumPayPalDigitalGoodAmounts(&testGoods),
+    currencyCode,
+    returnURL,
+    cancelURL,
     testGoods,
   )
-  
+
   if err != nil {
   // ... gracefully handle error
   } else { // redirect to paypal
