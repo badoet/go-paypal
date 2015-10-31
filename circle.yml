@@ -1,0 +1,5 @@
+machine:
+  environment:
+    PAYPAL_TEST_USERNAME: stanley_g2207-facilitator_api1.hotmail.com
+    PAYPAL_TEST_PASSWORD: K77DC4H8PF2YCZ77
+    PAYPAL_TEST_SIGNATURE: AFcWxV21C7fd0v3bYYYRCpSSRl31AbLzNiFH0kE4e30BxdtEXpLZpd8q
